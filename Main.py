@@ -1,6 +1,7 @@
 import pygame
 from Class_personaje import *
 from datos_imagenes import *
+from datos_plataformas import *
 from pygame.locals import *
 pygame.init()
 H, W = 500,1000
@@ -12,10 +13,7 @@ FPS = 18#Para desacelerar la pantalla
 #Creando un objeto personaje
 mario = Personaje(diccionario_imagenes['Imagenes mario'],(40,40),60,390,10)
 
-img = diccionario_imagenes['Imagenes mario']['Quieto'][0]
-print(pantalla.get_width())  
-rectangulo = img.get_rect()
-print(rectangulo.width)
+
 
 flag = True
 while flag:
@@ -37,7 +35,7 @@ while flag:
         mario.que_hace = "Quieto"
 
     pantalla.blit(fondo, (0,0))
-    mario.actualizar(pantalla)
+    mario.actualizar(pantalla, plataformas)
 
 
 

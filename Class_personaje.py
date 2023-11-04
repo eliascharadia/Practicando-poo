@@ -14,23 +14,35 @@ class Personaje:
         self.contador_pasos = 0
         self.animacion_actual = self.animaciones["Quieto"]
 
+        self.desplazamiento_y = 0
+        self.potencia_salto = -15
+        self.limite_velocidad_salto = 15
+        self.gravedad = 1
+        self.esta_saltando =False
 
-    def actualizar(self, pantalla):
+
+    def actualizar(self, pantalla, piso):
         match self.que_hace:
             case "Derecha":
-                self.animacion_actual  = self.animaciones["Caminar derecha"]
-                self.animar(pantalla)
+                if not self.esta_saltando:
+                    self.animacion_actual  = self.animaciones["Caminar derecha"]
+                    self.animar(pantalla)
                 self.caminar(pantalla)
             case "Izquierda":
-                self.animacion_actual  = self.animaciones["Caminar izquierda"]
-                self.animar(pantalla)
+                if not self.esta_saltando:
+                    self.animacion_actual  = self.animaciones["Caminar izquierda"]
+                    self.animar(pantalla)
                 self.caminar(pantalla)
             case "Saltar":
-                self.animacion_actual  = self.animaciones["Saltar"]
-                self.animar(pantalla)
+                if not self.esta_saltando:
+                    self.esta_saltando = True
+                    self.desplazamiento_y = self.potencia_salto 
+                    self.animacion_actual  = self.animaciones["Saltar"]
+                    self.animar(pantalla)
             case "Quieto":
                 self.animacion_actual  = self.animaciones["Quieto"]
                 self.animar(pantalla)
+        self.aplicar_gravedad(pantalla, piso)
 
 
     def animar(self, pantalla):
@@ -50,4 +62,20 @@ class Personaje:
         nueva_x = self.rectangulo_principal.x + velocidad_actual
         if nueva_x >= 0 and nueva_x <= pantalla.get_width() - self.rectangulo_principal.width:
             self.rectangulo_principal.x += velocidad_actual
+    
+    def aplicar_gravedad(self, pantalla, plataformas):
+        if self.esta_saltando:
+            self.animar(pantalla)
+            self.rectangulo_principal.y += self.desplazamiento_y
+            if self.desplazamiento_y + self.gravedad < self.limite_velocidad_salto:
+                self.desplazamiento_y += self.gravedad
+            
+        for piso in plataformas:
+            if self.rectangulo_principal.colliderect(piso["rectangulo"]):
+                self.desplazamiento_y = 0
+                self.esta_saltando = False
+                self.rectangulo_principal.bottom = piso["rectangulo"].top
+                break
+            else:
+                self.esta_saltando = True
                      
