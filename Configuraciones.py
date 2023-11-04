@@ -14,5 +14,18 @@ def rotar_imagen(imagenes:list):
     
     return lista_imagenes
 
+def crear_plataforma(visible, tamaño,  x,  y, path=""):
+    plataforma = {}
+    if visible:
+        plataforma["superficie"] = py.image.load(path)
+        plataforma["superficie"] = py.transform.scale(plataforma["superficie"], tamaño)
+    else:
+        plataforma["superficie"] = py.Surface(tamaño)
+
+    plataforma["rectangulo"] = plataforma["superficie"].get_rect()
+    plataforma["rectangulo"].x = x
+    plataforma["rectangulo"].y = y
+    return plataforma
+
 
 
