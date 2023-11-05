@@ -3,6 +3,7 @@ from Class_personaje import *
 from datos_imagenes import *
 from datos_plataformas import *
 from pygame.locals import *
+
 pygame.init()
 H, W = 500,1000
 pantalla = pygame.display.set_mode((W,H))
@@ -10,6 +11,8 @@ fondo = pygame.image.load("Imagenes\\fondo.jpg")
 fondo = pygame.transform.scale(fondo, (W,H))
 RELOJ = pygame.time.Clock()
 FPS = 18#Para desacelerar la pantalla
+
+
 #Creando un objeto personaje
 mario = Personaje(diccionario_imagenes['Imagenes mario'],(40,40),60,390,10)
 

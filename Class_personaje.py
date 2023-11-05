@@ -18,13 +18,13 @@ class Personaje:
         self.potencia_salto = -15
         self.limite_velocidad_salto = 15
         self.gravedad = 1
-        self.esta_saltando =False
+        self.esta_saltando = False
 
 
-    def actualizar(self, pantalla, piso):
+    def actualizar(self, pantalla, plataformas):
         match self.que_hace:
             case "Derecha":
-                if not self.esta_saltando:
+                if not self.esta_saltando:#Si la bandera está en false
                     self.animacion_actual  = self.animaciones["Caminar derecha"]
                     self.animar(pantalla)
                 self.caminar(pantalla)
@@ -42,7 +42,7 @@ class Personaje:
             case "Quieto":
                 self.animacion_actual  = self.animaciones["Quieto"]
                 self.animar(pantalla)
-        self.aplicar_gravedad(pantalla, piso)
+        self.aplicar_gravedad(pantalla, plataformas)
 
 
     def animar(self, pantalla):
